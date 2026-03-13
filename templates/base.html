@@ -5,75 +5,357 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mi Proyecto{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: #0d6efd;
-            --dark-blue: #0a58ca;
-            --light-blue: #e7f1ff;
+            --red:      #9B1B30;   /* Pantone 7420 C */
+            --red-dim:  #7a1525;
+            --red-mist: rgba(155, 27, 48, 0.07);
+            --ink:      #100e0e;
+            --ash:      #f5f2f0;
+            --smoke:    #ebe8e5;
+            --line:     rgba(155, 27, 48, 0.15);
+            --white:    #ffffff;
         }
-        
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
         body {
-            background-color: #f8f9fa;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            background-color: var(--ash);
+            color: var(--ink);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
         }
-        
+
+        /* ─────────────────────────────
+           NAVBAR
+        ───────────────────────────── */
         .navbar-custom {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            background: var(--white);
+            border-bottom: 1px solid var(--line);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        
-        .navbar-custom .navbar-brand,
+
+        .navbar-custom .container {
+            height: 62px;
+            align-items: stretch;
+        }
+
+        .navbar-custom .navbar-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1.35rem;
+            letter-spacing: 0.05em;
+            color: var(--ink) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            padding: 0;
+        }
+
+        .brand-pip {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--red);
+            flex-shrink: 0;
+        }
+
         .navbar-custom .nav-link {
-            color: white !important;
+            color: #666 !important;
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 0 1rem !important;
+            display: flex;
+            align-items: center;
+            height: 62px;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
         }
-        
-        .navbar-custom .nav-link:hover {
-            color: var(--light-blue) !important;
+
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: var(--red) !important;
+            border-bottom-color: var(--red);
         }
-        
-        .btn-primary-custom {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+
+        .navbar-custom .navbar-toggler {
+            border: 1px solid var(--line);
+            border-radius: 2px;
+            padding: 5px 9px;
+        }
+
+        .navbar-custom .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%239B1B30' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .btn-nav-login {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--red);
+            border: 1px solid var(--red);
+            background: transparent;
+            padding: 7px 16px;
+            border-radius: 2px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-nav-login:hover {
+            background: var(--red);
+            color: var(--white);
+        }
+
+        .btn-nav-register {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--white);
+            border: 1px solid var(--red);
+            background: var(--red);
+            padding: 7px 16px;
+            border-radius: 2px;
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .btn-nav-register:hover {
+            background: var(--red-dim);
+            border-color: var(--red-dim);
+            color: var(--white);
+        }
+
+        /* ─────────────────────────────
+           MAIN
+        ───────────────────────────── */
+        main { flex: 1; }
+
+        /* ─────────────────────────────
+           ALERTS
+        ───────────────────────────── */
+        .alert {
+            border-radius: 2px;
             border: none;
-            color: white;
+            font-size: 0.83rem;
+            letter-spacing: 0.02em;
+            padding: 12px 16px;
         }
-        
-        .btn-primary-custom:hover {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, #084298 100%);
-            color: white;
-        }
-        
+
+        .alert-success  { background: #f0faf4; border-left: 3px solid #198754; color: #145c37; }
+        .alert-danger,
+        .alert-error    { background: var(--red-mist); border-left: 3px solid var(--red); color: var(--red-dim); }
+        .alert-warning  { background: #fffbf0; border-left: 3px solid #e6a817; color: #7a5c00; }
+        .alert-info     { background: #f0f6ff; border-left: 3px solid #0d6efd; color: #0a3d80; }
+
+        /* ─────────────────────────────
+           CARDS
+        ───────────────────────────── */
         .card-custom {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.15);
+            border: 1px solid var(--smoke);
+            border-radius: 3px;
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.05);
         }
-        
+
         .card-header-custom {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
-            color: white;
-            border-radius: 15px 15px 0 0 !important;
+            background: var(--white);
+            border-bottom: 1px solid var(--smoke);
+            padding: 1.3rem 1.6rem;
+            border-radius: 3px 3px 0 0 !important;
+        }
+
+        .card-header-custom h4,
+        .card-header-custom h5 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--ink);
+            margin: 0;
+        }
+
+        .card-header-red {
+            background: var(--red);
+            border-bottom: none;
+        }
+        .card-header-red h4,
+        .card-header-red h5 { color: var(--white); }
+
+        /* ─────────────────────────────
+           BUTTONS
+        ───────────────────────────── */
+        .btn-primary-custom {
+            background: var(--red);
             border: none;
+            color: var(--white);
+            font-size: 0.74rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            border-radius: 2px;
+            padding: 11px 30px;
+            transition: background 0.2s, transform 0.15s;
+            cursor: pointer;
         }
-        
-        .form-control:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        .btn-primary-custom:hover {
+            background: var(--red-dim);
+            color: var(--white);
+            transform: translateY(-1px);
         }
-        
-        .text-primary-blue {
-            color: var(--primary-blue);
+        .btn-primary-custom:active { transform: none; }
+
+        .btn-outline-custom {
+            background: transparent;
+            border: 1px solid var(--red);
+            color: var(--red);
+            font-size: 0.74rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            border-radius: 2px;
+            padding: 11px 30px;
+            transition: all 0.2s;
+            cursor: pointer;
         }
-        
-        .bg-light-blue {
-            background-color: var(--light-blue);
+        .btn-outline-custom:hover {
+            background: var(--red);
+            color: var(--white);
+        }
+
+        /* ─────────────────────────────
+           FORMS
+        ───────────────────────────── */
+        .form-control, .form-select {
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            font-size: 0.87rem;
+            font-family: 'DM Sans', sans-serif;
+            padding: 10px 14px;
+            background: var(--white);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(155, 27, 48, 0.08);
+            outline: none;
+        }
+
+        .form-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        /* ─────────────────────────────
+           TYPOGRAPHY HELPERS
+        ───────────────────────────── */
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 2.1rem;
+            color: var(--ink);
+            letter-spacing: 0.015em;
+            line-height: 1.15;
+        }
+        .section-title em { color: var(--red); font-style: normal; }
+
+        .section-divider {
+            width: 28px;
+            height: 2px;
+            background: var(--red);
+            margin: 10px 0 18px;
+        }
+
+        .overline {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--red);
+        }
+
+        /* ─────────────────────────────
+           UTILITIES
+        ───────────────────────────── */
+        .text-red    { color: var(--red) !important; }
+        .bg-red      { background: var(--red) !important; color: var(--white) !important; }
+        .bg-ash      { background: var(--ash) !important; }
+        .bg-red-mist { background: var(--red-mist) !important; }
+
+        /* ─────────────────────────────
+           FOOTER
+        ───────────────────────────── */
+        footer {
+            background: var(--ink);
+            color: rgba(255,255,255,0.38);
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 2.4rem 0 2rem;
+        }
+
+        .footer-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--white);
+            letter-spacing: 0.05em;
+            text-transform: none;
+        }
+
+        .footer-rule {
+            width: 24px;
+            height: 2px;
+            background: var(--red);
+            margin: 10px auto 18px;
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.35);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        footer a:hover { color: var(--red); }
+
+        /* ─────────────────────────────
+           PAGE FADE IN
+        ───────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-enter {
+            animation: fadeUp 0.45s ease both;
         }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+
+    <!-- ═══════ NAVBAR ═══════ -->
     {% include 'menu.html' %}
-    
-    <main class="container my-4">
+
+    <!-- ═══════ MAIN ═══════ -->
+    <main class="container my-4 page-enter">
+
         {% if messages %}
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-12">
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -84,17 +366,21 @@
                 </div>
             </div>
         {% endif %}
-        
+
         {% block content %}
         {% endblock %}
+
     </main>
-    
-    <footer class="text-center py-4 mt-5" style="background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%); color: white;">
-        <div class="container">
-            <p class="mb-0">&copy; 2026 Mi Proyecto Django. Todos los derechos reservados.</p>
+
+    <!-- ═══════ FOOTER ═══════ -->
+    <footer>
+        <div class="container text-center">
+            <p class="footer-brand mb-1">Mi Proyecto</p>
+            <div class="footer-rule"></div>
+            <p class="mb-0">&copy; 2026 — Todos los derechos reservados.</p>
         </div>
     </footer>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     {% block extra_js %}{% endblock %}
 </body>
