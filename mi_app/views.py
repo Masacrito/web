@@ -8,7 +8,7 @@ def get_users(request):
 def inicio(request):
     context= {
         "name": "Samuel",
-        "email": "samuelmesa@mail.com",
+        "email": "kevinsanchezalvarez23@gmail.com",
         "age": 21,
         "resumen":[3,5,67,7,8,8]
     }
